@@ -1,5 +1,9 @@
 const express = require('express');
 const app = express();
+// parse incoming string or array data
+app.use(express.urlencoded({ extended: true }));
+// parse incoming JSON data
+app.use(express.json());
 const { animals } = require('./data/animals');
 const PORT = process.env.PORT || 3001;
 
@@ -44,6 +48,19 @@ function filterByQuery(query, animalsArray) {
   }
 
 
+  function findById(id, animalsArray) {
+    const result = animalsArray.filter(animal => animal.id === id)[0];
+    return result;
+  }
+
+  function createNewAnimal(body, animalsArray) {
+    console.log(body);
+    // our function's main code will go here!
+  
+    // return finished code to post route for response
+    return body;
+  }
+
   app.get('/api/animals', (req, res) => {
     let results = animals;
     if (req.query) {
@@ -52,7 +69,22 @@ function filterByQuery(query, animalsArray) {
     res.json(results);
   });
 
-app.listen(PORT, () => {
+  function findById(id, animalsArray) {
+    const result = animalsArray.filter(animal => animal.id === id)[0];
+    return result;
+  }
+
+  app.post('/api/animals', (req, res) => {
+    // req.body is where our incoming content will be
+    console.log(req.body); 
+    req.body.id = animals.length.toString();
+    
+    const animal = createNewAnimal(req.body,)
+
+    res.json(animal);
+  });
+
+app.listen(PORT , () => {
     console.log(`API server now on port 3001!`);
   });
 
